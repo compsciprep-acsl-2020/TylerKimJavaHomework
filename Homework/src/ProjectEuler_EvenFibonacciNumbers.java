@@ -18,9 +18,15 @@ public class ProjectEuler_EvenFibonacciNumbers {
         fibonacciNumbers.add(2L);
 
         //find all fibonacci numbers
-        for(int i = 2; i < maxValue; i++) {
+        for(int i = 2;i < maxValue; i++) {
             long newValue = fibonacciCalculator(fibonacciNumbers.get(i-2), fibonacciNumbers.get(i-1));
-            fibonacciNumbers.add(newValue);
+
+            if(newValue <= maxValue) {
+                fibonacciNumbers.add(newValue);
+
+            } else {
+                break;
+            }
 
         }
 
