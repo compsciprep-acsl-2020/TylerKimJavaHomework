@@ -17,15 +17,12 @@ public class Q3_11_09 {
         String inputString = input.nextLine();
         StringTokenizer stringTokenizer = new StringTokenizer(inputString, " ");
 
-
-
         //Create the input string
         while(stringTokenizer.hasMoreTokens()) {
             inputValues.add(stringTokenizer.nextToken());
         }
 
         finalValue = rotateLeft(inputValues);
-
         System.out.println(finalValue);
 
     }
