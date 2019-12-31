@@ -125,22 +125,4 @@ public class Enclosure {
         return 0;
     }
 
-    //missing builder
-    public static int builder(String text, String missingOperator, int splitPoint) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-            String firstHalf = text.substring(0, splitPoint+1);
-            String secondHalf = text.substring(splitPoint + 1);
-
-            stringBuilder.append(firstHalf);
-            stringBuilder.append(missingOperator);
-            stringBuilder.append(secondHalf);
-
-
-
-
-        String finalString = stringBuilder.toString();
-        System.out.println(finalString);
-        return finalString.indexOf(missingOperator) + 1;
-    }
 }
