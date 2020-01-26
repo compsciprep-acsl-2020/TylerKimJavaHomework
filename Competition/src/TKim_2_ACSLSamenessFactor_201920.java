@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class TKim_2_ACSLSamenessFactor_201920 {
 
     public static void main(String args[]) throws FileNotFoundException {
-        Scanner input = new Scanner(new File("C:\\Users\\tyler\\dev\\TylerKimJavaHomework\\Competition\\src\\TKim_2_ACSLSamenessFactor_201920_SampleInputs"));
+        Scanner input = new Scanner(new File("C:\\Users\\danie\\dev\\TylerKimJavaHomework\\Competition\\src\\TKim_2_ACSLSamenessFactor_201920_SampleInputs"));
 
         while(input.hasNext()) {
             String inputString = input.nextLine();
@@ -163,6 +163,14 @@ public class TKim_2_ACSLSamenessFactor_201920 {
                 }
             }
 
+            if(firstText.size() > secondString.size()) {
+                stringBuilder1.append(fillRestOfString(secondString.size(), firstText));
+
+            } else if(secondString.size() > firstText.size()) {
+                stringBuilder2.append(fillRestOfString(firstText.size(), secondString));
+            }
+
+
             for(int i = 0; i < fillUpRestOfLongerString(secondString, firstText).size(); i++) {
                 stringBuilder2.append(fillUpRestOfLongerString(secondString,firstText).get(i));
             }
@@ -180,9 +188,17 @@ public class TKim_2_ACSLSamenessFactor_201920 {
                     if(i < secondString.size() - 1 && firstText.get(i).equals(secondString.get(i+1))) {
                         readyToMoveOn = false;
                         stringBuilder1.append(firstText.get(i));
+                        stringBuilder1.append(fillRestOfString(i + 1, firstText));
+                        stringBuilder2.append(fillRestOfString(i+1, secondString));
+                        break;
+
                     } else if(i < firstText.size() -1 && secondString.get(i).equals(firstText.get(i+1))) {
                         readyToMoveOn = false;
                         stringBuilder2.append(secondString.get(i));
+                        stringBuilder1.append(fillRestOfString(i + 1, firstText));
+                        stringBuilder2.append(fillRestOfString(i+1, secondString));
+                        break;
+
                     }
                     else {
                         stringBuilder1.append(firstText.get(i));
@@ -194,6 +210,14 @@ public class TKim_2_ACSLSamenessFactor_201920 {
                 }
 
             }
+
+            if(firstText.size() > secondString.size() && stringBuilder1.length() != firstText.size()) {
+                stringBuilder1.append(fillRestOfString(secondString.size(), firstText));
+
+            } else if(secondString.size() > firstText.size() && stringBuilder2.length() != secondString.size()) {
+                stringBuilder2.append(fillRestOfString(firstText.size(), secondString));
+            }
+
 
             for(int i = 0; i < fillUpRestOfLongerString(secondString, firstText).size(); i++) {
                 stringBuilder2.append(fillUpRestOfLongerString(secondString,firstText).get(i));
@@ -264,6 +288,15 @@ public class TKim_2_ACSLSamenessFactor_201920 {
         return text;
     }
 
+    public static String fillRestOfString(int i, ArrayList<String> text) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(int x = i; x < text.size(); x++) {
+            stringBuilder.append(text.get(x));
+        }
+
+        return stringBuilder.toString();
+    }
 
 }
 
