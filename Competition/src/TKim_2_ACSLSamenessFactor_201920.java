@@ -1,243 +1,163 @@
-import java.io.File;
-import java.util.List;
-import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
+import java.util.Scanner;
+import java.util.List;
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class TKim_2_ACSLSamenessFactor_201920 {
 
     public static void main(String args[]) throws FileNotFoundException {
-        Scanner input = new Scanner(new File("C:\\Users\\danie\\dev\\TylerKimJavaHomework\\Competition\\src\\TKim_2_ACSLSamenessFactor_201920_SampleInputs"));
+        //Initialization
+        Scanner input = new Scanner(new File("C:\\Users\\tyler\\dev\\TylerKimJavaHomework\\Competition\\src\\TKim_2_ACSLSamenessFactor_201920_SampleInputs"));
 
-        while(input.hasNext()) {
-            String inputString = input.nextLine();
-            String[] tempArr = inputString.split(" ");
+        while (input.hasNext()) {
+            String[] tempArr = input.nextLine().split(" ");
             String text1 = tempArr[0];
             String text2 = tempArr[1];
-            ArrayList<String> firstText = new ArrayList<>();
-            ArrayList<String> secondText = new ArrayList<>();
-            firstText = convertStringToArray(text1);
-            secondText = convertStringToArray(text2);
-            ArrayList<String> finalText = new ArrayList<>();
-            int output = 0;
 
-            System.out.println("Initial String: " + firstText + " " + secondText);
+            System.out.println(text1 + " " + text2);
 
-            if(firstText.size() > secondText.size()) {
+            //run sameness calculation
+            int output = samenessCalculator(text1, text2);
+            System.out.println(output);
 
-                output = firstTextLarger(firstText, secondText);
+        }
+    }
 
-            } else {
-               output = secondTextLarger(firstText, secondText);
+    public static int samenessCalculator(String text1, String text2) {
+        boolean hasAccomplishedTask = false;
+        String finalText1 = text1;
+        String finalText2 = text2;
+        int finalValue = 0;
+
+        while(true) {
+            ArrayList<String> purge = positionAndIdentityTest(finalText1, finalText2);
+            purge = overAndIdentityTest(purge.get(0), purge.get(1));
+
+            if(purge.get(0).equals(finalText1) && purge.get(1).equals(finalText2)) {
+                break;
             }
 
-           System.out.println(output);
-
-
+            finalText1 = purge.get(0);
+            finalText2 = purge.get(1);
 
         }
 
+        finalValue = ASFCalculations(finalText1, finalText2);
+
+        return finalValue;
     }
 
+    //same position and type
+    public static ArrayList<String> positionAndIdentityTest(String text1, String text2) {
+        StringBuilder stringBuilder1 = new StringBuilder();
+        StringBuilder stringBuilder2 = new StringBuilder();
+        int currentIndex = 0;
+
+        ArrayList<String> finalArrayList = new ArrayList<>();
+
+        ArrayList<String> firstText = convertStringToArray(text1);
+        ArrayList<String> secondText = convertStringToArray(text2);
+
+        for (int i = 0; i < firstText.size(); i++) {
+            //tester
+            try {
+
+                if (!firstText.get(i).equals(secondText.get(i))) {
+                    stringBuilder1.append(firstText.get(i));
+                    stringBuilder2.append(secondText.get(i));
+                }
+
+            } catch (IndexOutOfBoundsException e) {
+                break;
+            }
+
+            currentIndex = i;
+        }
+
+        String firstFinalString = fillRestOfString(currentIndex + 1, firstText, stringBuilder1);
+        String secondFinalString = fillRestOfString(currentIndex + 1, secondText, stringBuilder2);
+
+        finalArrayList.add(firstFinalString);
+        finalArrayList.add(secondFinalString);
+
+        return finalArrayList;
+    }
+
+
+    //position one over and type
+    public static ArrayList<String> overAndIdentityTest(String text1, String text2) {
+        StringBuilder stringBuilder1 = new StringBuilder();
+        StringBuilder stringBuilder2 = new StringBuilder();
+        int currentIndex = -1;
+
+        ArrayList<String> finalArrayList = new ArrayList<>();
+
+        ArrayList<String> firstText = convertStringToArray(text1);
+        ArrayList<String> secondText = convertStringToArray(text2);
+
+        for (int i = 0; i < firstText.size(); i++) {
+            //tester
+            try {
+
+                if (firstText.get(i).equals(secondText.get(i+1))) {
+                    stringBuilder1.append(firstText.get(i));
+                    currentIndex = i;
+                    break;
+
+                } else if(secondText.get(i).equals(firstText.get(i+1))) {
+                    stringBuilder2.append(secondText.get(i));
+                    currentIndex = i;
+                    break;
+                }
+
+                stringBuilder1.append(firstText.get(i));
+                stringBuilder2.append(secondText.get(i));
+
+            } catch (IndexOutOfBoundsException e) {
+                break;
+            }
+
+            currentIndex = i;
+        }
+
+        String firstFinalString = fillRestOfString(currentIndex + 1, firstText, stringBuilder1);
+        String secondFinalString = fillRestOfString(currentIndex + 1, secondText, stringBuilder2);
+
+        finalArrayList.add(firstFinalString);
+        finalArrayList.add(secondFinalString);
+
+        return finalArrayList;
+    }
+
+
+
+
+    //fills up rest of string
+    public static String fillRestOfString(int i, ArrayList<String> text, StringBuilder stringBuilder) {
+
+        for(int x = i; x < text.size(); x++) {
+            stringBuilder.append(text.get(x));
+        }
+
+        return stringBuilder.toString();
+    }
+
+    //convert string into array list
     public static ArrayList<String> convertStringToArray(String text) {
         ArrayList<String> listOfStrings = new ArrayList<>();
 
-        for(int i = 0; i < text.length(); i++) {
-            listOfStrings.add(text.substring(i, i+1));
+        for (int i = 0; i < text.length(); i++) {
+            listOfStrings.add(text.substring(i, i + 1));
         }
 
         return listOfStrings;
     }
 
 
-    public static ArrayList<String> fillUpRestOfLongerString(ArrayList<String> longerString, ArrayList<String> shorterString) {
-       ArrayList<String> stringArray = new ArrayList<>();
-
-        for(int i = shorterString.size(); i < longerString.size(); i++) {
-            stringArray.add(longerString.get(i));
-        }
-
-        return stringArray;
-    }
-
-    public static int firstTextLarger(ArrayList<String> firstText, ArrayList<String> secondString) {
-
-        StringBuilder stringBuilder1 = new StringBuilder();
-        StringBuilder stringBuilder2 = new StringBuilder();
-
-        while(true) {
-            stringBuilder1 = new StringBuilder();
-            stringBuilder2 = new StringBuilder();
-
-            boolean readyToMoveOn = true;
-
-            //purge 1
-            for(int i = 0; i < secondString.size(); i++) {
-                try {
-                    if(firstText.get(i).equals(secondString.get(i))) {
-                        readyToMoveOn = false;
-                    } else {
-                        stringBuilder1.append(firstText.get(i));
-                        stringBuilder2.append(secondString.get(i));
-                    }
-
-                } catch(IndexOutOfBoundsException e) {
-                    break;
-                }
-            }
-
-            for(int i = 0; i < fillUpRestOfLongerString(firstText, secondString).size(); i++) {
-                stringBuilder2.append(fillUpRestOfLongerString(firstText,secondString).get(i));
-            }
-
-            firstText = convertStringToArray(stringBuilder1.toString());
-            secondString = convertStringToArray(stringBuilder2.toString());
-
-            stringBuilder1= new StringBuilder();
-            stringBuilder2= new StringBuilder();
-
-            //purge 2
-            for(int i = 0; i < secondString.size(); i++) {
-
-                try {
-                    if(i < firstText.size()-1 && secondString.get(i).equals(firstText.get(i+1))) {
-                        readyToMoveOn = false;
-                        stringBuilder1.append(secondString.get(i));
-                    } else if(i < secondString.size()-1 && firstText.get(i).equals(secondString.get(i+1))) {
-                        readyToMoveOn = false;
-                        stringBuilder2.append(secondString.get(i));
-                    }
-                    else {
-                        stringBuilder1.append(secondString.get(i));
-                        stringBuilder2.append(firstText.get(i));
-                    }
-
-                } catch(IndexOutOfBoundsException e) {
-                    break;
-                }
-
-            }
-
-            for(int i = 0; i < fillUpRestOfLongerString(firstText, secondString).size(); i++) {
-                stringBuilder2.append(fillUpRestOfLongerString(firstText,secondString).get(i));
-            }
-
-            firstText = convertStringToArray(stringBuilder1.toString());
-            secondString = convertStringToArray(stringBuilder2.toString());
-
-            if(readyToMoveOn) {
-                break;
-            }
-
-        }
-        System.out.println(stringBuilder1.toString() + " " + stringBuilder2.toString());
-
-        int finalValue = ASFCalculations(stringBuilder2.toString(), stringBuilder1.toString());
-
-        return finalValue;
-    }
-
-    public static int secondTextLarger(ArrayList<String> firstText, ArrayList<String> secondString) {
-
-        StringBuilder stringBuilder1 = new StringBuilder();
-        StringBuilder stringBuilder2 = new StringBuilder();
-
-        while(true) {
-          stringBuilder1 = new StringBuilder();
-          stringBuilder2 = new StringBuilder();
-
-            boolean readyToMoveOn = true;
-
-            //purge 1
-            for(int i = 0; i < firstText.size(); i++) {
-                try {
-                    if(secondString.get(i).equals(firstText.get(i))) {
-                        readyToMoveOn = false;
-                    } else {
-                        stringBuilder1.append(firstText.get(i));
-                        stringBuilder2.append(secondString.get(i));
-                    }
-
-                } catch(IndexOutOfBoundsException e) {
-                    break;
-                }
-            }
-
-            if(firstText.size() > secondString.size()) {
-                stringBuilder1.append(fillRestOfString(secondString.size(), firstText));
-
-            } else if(secondString.size() > firstText.size()) {
-                stringBuilder2.append(fillRestOfString(firstText.size(), secondString));
-            }
-
-
-            for(int i = 0; i < fillUpRestOfLongerString(secondString, firstText).size(); i++) {
-                stringBuilder2.append(fillUpRestOfLongerString(secondString,firstText).get(i));
-            }
-
-            firstText = convertStringToArray(stringBuilder1.toString());
-            secondString = convertStringToArray(stringBuilder2.toString());
-
-            stringBuilder1= new StringBuilder();
-            stringBuilder2= new StringBuilder();
-
-            //purge 2
-            for(int i = 0; i < firstText.size(); i++) {
-
-                try {
-                    if(i < secondString.size() - 1 && firstText.get(i).equals(secondString.get(i+1))) {
-                        readyToMoveOn = false;
-                        stringBuilder1.append(firstText.get(i));
-                        stringBuilder1.append(fillRestOfString(i + 1, firstText));
-                        stringBuilder2.append(fillRestOfString(i+1, secondString));
-                        break;
-
-                    } else if(i < firstText.size() -1 && secondString.get(i).equals(firstText.get(i+1))) {
-                        readyToMoveOn = false;
-                        stringBuilder2.append(secondString.get(i));
-                        stringBuilder1.append(fillRestOfString(i + 1, firstText));
-                        stringBuilder2.append(fillRestOfString(i+1, secondString));
-                        break;
-
-                    }
-                    else {
-                        stringBuilder1.append(firstText.get(i));
-                        stringBuilder2.append(secondString.get(i));
-                    }
-
-                } catch(IndexOutOfBoundsException e) {
-                    break;
-                }
-
-            }
-
-            if(firstText.size() > secondString.size() && stringBuilder1.length() != firstText.size()) {
-                stringBuilder1.append(fillRestOfString(secondString.size(), firstText));
-
-            } else if(secondString.size() > firstText.size() && stringBuilder2.length() != secondString.size()) {
-                stringBuilder2.append(fillRestOfString(firstText.size(), secondString));
-            }
-
-
-            for(int i = 0; i < fillUpRestOfLongerString(secondString, firstText).size(); i++) {
-                stringBuilder2.append(fillUpRestOfLongerString(secondString,firstText).get(i));
-            }
-
-            firstText = convertStringToArray(stringBuilder1.toString());
-            secondString = convertStringToArray(stringBuilder2.toString());
-
-            if(readyToMoveOn) {
-                break;
-            }
-
-        }
-        System.out.println(stringBuilder1.toString() + " " + stringBuilder2.toString());
-
-        int finalValue = ASFCalculations(stringBuilder1.toString(), stringBuilder2.toString());
-
-        return finalValue;
-    }
-
+    //ASF Calculations
     public static int ASFCalculations(String firstText, String secondText) {
         int finalValue = 0;
         int counter = 0;
@@ -246,7 +166,7 @@ public class TKim_2_ACSLSamenessFactor_201920 {
         String longerText;
         String shorterText;
 
-        if(firstText.length() >= secondText.length()) {
+        if (firstText.length() >= secondText.length()) {
             longerText = firstText;
             shorterText = secondText;
 
@@ -257,18 +177,18 @@ public class TKim_2_ACSLSamenessFactor_201920 {
 
         }
 
-        for(int i = 0; i < firstText.length(); i++){
+        for (int i = 0; i < firstText.length(); i++) {
             charArray1.add(firstText.charAt(i));
         }
-        for(int x = 0; x < secondText.length(); x++) {
+        for (int x = 0; x < secondText.length(); x++) {
             charArray2.add(secondText.charAt(x));
         }
 
-        for(int t = 0; t < shorterText.length(); t++) {
-            finalValue = finalValue + (((int) charArray1.get(t) - 64) - ((int) charArray2.get(t)-64));
+        for (int t = 0; t < shorterText.length(); t++) {
+            finalValue = finalValue + (((int) charArray1.get(t) - 64) - ((int) charArray2.get(t) - 64));
         }
 
-        for(int y = shorterText.length(); y < longerText.length(); y++) {
+        for (int y = shorterText.length(); y < longerText.length(); y++) {
             counter++;
         }
 
@@ -276,27 +196,8 @@ public class TKim_2_ACSLSamenessFactor_201920 {
 
         return finalValue;
 
+
     }
 
-
-    public static ArrayList<String> fillRestOfLargerString(ArrayList<String> text, ArrayList<String> shorterText) {
-        ArrayList<String> string = new ArrayList<>();
-
-        for(int i = shorterText.size(); i < text.size(); i++) {
-            string.add(text.get(i));
-        }
-        return text;
-    }
-
-    public static String fillRestOfString(int i, ArrayList<String> text) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for(int x = i; x < text.size(); x++) {
-            stringBuilder.append(text.get(x));
-        }
-
-        return stringBuilder.toString();
-    }
 
 }
-
