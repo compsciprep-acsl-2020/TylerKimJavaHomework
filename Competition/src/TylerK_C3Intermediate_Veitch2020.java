@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.io.FileNotFoundException;
 
-public class TylerKC3JaVeitch2020 {
+public class TylerK_C3Intermediate_Veitch2020 {
 
     public static void main(String args[]) throws FileNotFoundException {
         //initialization
