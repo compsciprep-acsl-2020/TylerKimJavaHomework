@@ -1,3 +1,5 @@
+package otherHomework;
+
 import java.util.Scanner;
 
 public class ProjectEuler_MultiplesOf3And5 {

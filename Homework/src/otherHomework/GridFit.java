@@ -1,3 +1,5 @@
+package otherHomework;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -119,8 +121,5 @@ public class GridFit {
     }
 
     //second pattern
-    public static ArrayList<int[][]> secondPattern(int[][] grid) {
-
-    }
 
 }

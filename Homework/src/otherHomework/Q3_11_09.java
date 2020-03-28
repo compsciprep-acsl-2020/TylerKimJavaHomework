@@ -1,3 +1,5 @@
+package otherHomework;
+
 import java.util.StringTokenizer;
 import java.util.Scanner;
 import java.util.ArrayList;

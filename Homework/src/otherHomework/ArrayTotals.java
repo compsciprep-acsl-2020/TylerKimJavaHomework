@@ -1,3 +1,5 @@
+package otherHomework;
+
 import java.util.Random;
 
 public class ArrayTotals {

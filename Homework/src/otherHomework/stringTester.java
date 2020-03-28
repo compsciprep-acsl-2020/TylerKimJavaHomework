@@ -1,3 +1,5 @@
+package otherHomework;
+
 public class stringTester {
 
     public static void main(String args[]) {
