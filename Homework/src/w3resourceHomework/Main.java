@@ -12,9 +12,14 @@ public class Main {
         Question7 ans7 = new Question7("PHP Exercises and ", "Python Exercises");
         Question8 ans8 = new Question8("PHP Exercises and Python Exercises", "and");
         Question9 ans9 = new Question9("example.com", "Example.com");
-
-
         Question10 ans10 = new Question10("Example.com", changeStringToStringBuffer("example.com"));
+        Character[] characterArray = {'1', '2', '3', '4'};
+        Question11 ans11 = new Question11(characterArray);
+        Question12 ans12 = new Question12("Python Exercise", "se");
+        Question13 ans13 = new Question13("Stephen Edwin King", "Mike Royko");
+        Question14 ans14 = new Question14("Stephen Edwin King", "stephen edwin king");
+        Question15 ans15 = new Question15();
+        Question16 ans16 = new Question16("The new String");
 
 
         //question 1
@@ -70,6 +75,44 @@ public class Main {
         System.out.println("Answer 10:");
         System.out.println(ans10.compareStringBuffer());
         System.out.println(" ");
+
+        //Question 11
+        System.out.println("Answer 11:");
+        System.out.println(ans11.characterArrayToString().toString());
+        System.out.println(" ");
+
+        //Question 12
+        System.out.println("Answer 12:");
+        System.out.println(ans12.containerTest());
+        System.out.println(" ");
+
+        //Question 13
+        System.out.println("Answer 13:");
+        System.out.println(ans13.sameDataTester());
+        System.out.println(" ");
+
+        //Question 14
+        System.out.println("Answer 14:");
+        System.out.println(ans14.firstString + " equals " + ans14.secondString + "?" + " " + ans14.compareStringsIgnoringCase());
+        System.out.println(" ");
+
+        //Question 15
+        System.out.println("Answer 15: ");
+        System.out.println(ans15.datePrinter());
+        System.out.println(" ");
+
+        //Question 16
+        System.out.println("Answer 16: ");
+        System.out.println(ans16.stringToByteArray());
+        System.out.println(" ");
+
+        //Question 17
+
+        //Question 18
+
+        //Question 19
+
+        //Question 20
     }
 
     public static StringBuffer changeStringToStringBuffer(String input) {
