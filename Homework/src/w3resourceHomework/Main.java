@@ -20,6 +20,10 @@ public class Main {
         Question14 ans14 = new Question14("Stephen Edwin King", "stephen edwin king");
         Question15 ans15 = new Question15();
         Question16 ans16 = new Question16("The new String");
+        Question17 ans17 = new Question17("This is the sample string.");
+        Question18 ans18 = new Question18("Python Exercises.");
+        Question19 ans19 = new Question19("The quick brown fox jumps over the lazy dog.");
+        Question20 ans20 = new Question20("Java Exercises", changeStringToStringBuffer("Java Exercises"));
 
 
         //question 1
@@ -107,12 +111,24 @@ public class Main {
         System.out.println(" ");
 
         //Question 17
+        System.out.println("Answer 17: ");
+        System.out.println(ans17.getCharacterArray());
+        System.out.println(" ");
 
         //Question 18
+        System.out.println("Question 18: ");
+        System.out.println("The hash code for " + ans18.input + " is " + ans18.hashCodeFromString());
+        System.out.println(" ");
 
         //Question 19
+        System.out.println("Question 19: ");
+        System.out.println(ans19.characterIndexer());
+        System.out.println(" ");
 
         //Question 20
+        System.out.println("Question 20: ");
+        System.out.println("str1 == str2? " + ans20.compareCanonicalRepresentationOfStrings().get(0) + "\nstr1 == str3? " + ans20.compareCanonicalRepresentationOfStrings().get(1));
+
     }
 
     public static StringBuffer changeStringToStringBuffer(String input) {
