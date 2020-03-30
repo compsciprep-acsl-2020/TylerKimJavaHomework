@@ -24,6 +24,16 @@ public class Main {
         Question18 ans18 = new Question18("Python Exercises.");
         Question19 ans19 = new Question19("The quick brown fox jumps over the lazy dog.");
         Question20 ans20 = new Question20("Java Exercises", changeStringToStringBuffer("Java Exercises"));
+        Question21 ans21 = new Question21("The quick brown fox jumps over the lazy dog");
+        Question22 ans22 = new Question22("example.com");
+        Question23 ans23 = new Question23("Shanghai Houston Colorado Alexandria", "Alexandria Colorado Houston Shanghai");
+        Question24 ans24 = new Question24("The quick brown fox jumps over the lazy dog");
+        Question25 ans25 = new Question25("The quick brown fox jumps over the lazy dog", "fox", "cat");
+        Question26 ans26 = new Question26("Orange is also my favorite color.", "Red");
+        Question27 ans27 = new Question27("The quick brown fox jumps over the lazy dog.", 10, 26);
+        Question28 ans28 = new Question28("Java Exercises.");
+        Question29 ans29 = new Question29("The Quick BroWn FoX");
+        Question30 ans30 = new Question30("The Quick BroWn FoX!");
 
 
         //question 1
@@ -128,7 +138,57 @@ public class Main {
         //Question 20
         System.out.println("Question 20: ");
         System.out.println("str1 == str2? " + ans20.compareCanonicalRepresentationOfStrings().get(0) + "\nstr1 == str3? " + ans20.compareCanonicalRepresentationOfStrings().get(1));
+        System.out.println(" ");
 
+        //Question21
+        System.out.println("Question 21: ");
+        System.out.println(ans21.lastIndex());
+        System.out.println(" ");
+
+        //Question 22
+        System.out.println("Question 22: ");
+        System.out.println(ans22.length());
+        System.out.println(" ");
+
+        //Question 23
+        System.out.println("Question 23: ");
+        System.out.println(ans23.stringMatcher());
+        System.out.println(" ");
+
+        //Question 24
+        System.out.println("Question 24: ");
+        System.out.println(ans24.switchDToF());
+        System.out.println(" ");
+
+        //Question 25
+        System.out.println("Question 25: ");
+        System.out.println(ans25.wordReplacer());
+        System.out.println(" ");
+
+        //Question 26
+        System.out.println("Question 26: ");
+        System.out.println(ans26.input + " starts with " + ans26.testingValue + "?  " + ans26.testIfStartWithString());
+        System.out.println(" ");
+
+        //Question 27
+        System.out.println("Question 27: ");
+        System.out.println(ans27.stringFromGivenRange());
+        System.out.println(" ");
+
+        //Question 28
+        System.out.println("Question 28: ");
+        System.out.println(ans28.getCharacterArray());
+        System.out.println(" ");
+
+        //Question 29
+        System.out.println("Question 29: ");
+        System.out.println(ans29.convertToAllLowerCase());
+        System.out.println(" ");
+
+        //Question 30
+        System.out.println("Question 30: ");
+        System.out.println(ans30.convertToAllUpperCase());
+        System.out.println(" ");
     }
 
     public static StringBuffer changeStringToStringBuffer(String input) {
