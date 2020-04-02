@@ -1,6 +1,6 @@
 package w3resourceHomework;
 
-public class Main {
+public class MainToQuestion31 {
 
     public static void main(String args[]) {
         Question1 ans1 = new Question1("Java Exercises!", 0);
@@ -34,6 +34,7 @@ public class Main {
         Question28 ans28 = new Question28("Java Exercises.");
         Question29 ans29 = new Question29("The Quick BroWn FoX");
         Question30 ans30 = new Question30("The Quick BroWn FoX!");
+        Question31 ans31 = new Question31(" Java Exercises ");
 
 
         //question 1
@@ -189,6 +190,29 @@ public class Main {
         System.out.println("Question 30: ");
         System.out.println(ans30.convertToAllUpperCase());
         System.out.println(" ");
+
+        //Question 31
+        System.out.println("Question 31: ");
+        System.out.println(ans31.whiteSpaceTrimmer());
+        System.out.println(" ");
+
+        //Question 32
+
+        //Question 33
+
+        //Question 34
+
+        //Question 35
+
+        //Question 36
+
+        //Question 37
+
+        //Question 38
+
+        //Question 39
+
+        //Question 40
     }
 
     public static StringBuffer changeStringToStringBuffer(String input) {
