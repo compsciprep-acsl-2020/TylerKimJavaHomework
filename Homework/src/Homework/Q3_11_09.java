@@ -1,4 +1,4 @@
-package otherHomework;
+package Homework;
 
 import java.util.StringTokenizer;
 import java.util.Scanner;

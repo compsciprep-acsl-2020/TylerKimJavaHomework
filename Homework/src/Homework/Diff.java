@@ -1,6 +1,5 @@
-package otherHomework;
+package Homework;
 
-import java.lang.reflect.Array;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;

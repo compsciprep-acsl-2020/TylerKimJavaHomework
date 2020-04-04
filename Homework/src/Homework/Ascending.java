@@ -1,9 +1,8 @@
-package otherHomework;
+package Homework;
 
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class Ascending {
 

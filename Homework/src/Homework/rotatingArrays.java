@@ -1,8 +1,7 @@
-package otherHomework;
+package Homework;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 import java.util.List;
 
 public class rotatingArrays {
