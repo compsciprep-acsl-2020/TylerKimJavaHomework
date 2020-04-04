@@ -22,6 +22,13 @@ public class Duplicates {
         System.out.println(additionResult.get(0));
         System.out.println(additionResult.get(1));
 
+        ArrayList<ArrayList<String>> subtractionResult = DELETE(additionResult.get(0), stringToIntegerArrayList(additionResult.get(1)), "BOA");
+
+        System.out.println(" ");
+
+        System.out.println(subtractionResult.get(0));
+        System.out.println(subtractionResult.get(1));
+
 
     }
 
@@ -65,8 +72,8 @@ public class Duplicates {
 
 
     //command methods
+        //add
     public static ArrayList<ArrayList<String>> ADD(ArrayList<String> letters, ArrayList<Integer> auxiliary, String addedLetters) {
-
 
         for(int i = 0; i < addedLetters.length(); i++) {
 
@@ -84,6 +91,17 @@ public class Duplicates {
         }
 
         return reorderLetterAndAuxiliary(letters, auxiliary);
+    }
+        //delete
+    public static ArrayList<ArrayList<String>> DELETE(ArrayList<String> letters, ArrayList<Integer> auxiliary, String deletedLetters) {
+
+        for(int i = 0; i < deletedLetters.length(); i++) {
+            int x = auxiliary.get(letters.indexOf(deletedLetters.substring(i, i+1))) - 1;
+            auxiliary.set(letters.indexOf(deletedLetters.substring(i, i+1)), x);
+        }
+
+        return purgeCounterAndLetter(letters, auxiliary);
+
     }
 
 
@@ -114,6 +132,19 @@ public class Duplicates {
         return output;
     }
 
+        //convert string array to integer array
+    public static ArrayList<Integer> stringToIntegerArrayList(ArrayList<String> stringArr) {
+        ArrayList<Integer> output = new ArrayList<>();
+
+        for(int i = 0; i < stringArr.size(); i++) {
+            output.add(Integer.parseInt(stringArr.get(i)));
+        }
+
+        return output;
+
+    }
+
+
         //reorder the auxiliary to that of the letter collection
     public static ArrayList<ArrayList<String>> reorderLetterAndAuxiliary(ArrayList<String> letters, ArrayList<Integer> auxiliary) {
         ArrayList<ArrayList<String>> output = new ArrayList<>();
@@ -135,6 +166,24 @@ public class Duplicates {
 
         output.add(tempLetters);
         output.add(integerToStringArrayList(orderedAuxiliary));
+
+        return output;
+
+    }
+
+        //clean out zero counters
+    public static ArrayList<ArrayList<String>> purgeCounterAndLetter(ArrayList<String> letters, ArrayList<Integer> auxiliary) {
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+
+        for(int i = 0; i < auxiliary.size(); i++) {
+            if(auxiliary.get(i) == 0) {
+                auxiliary.remove(i);
+                letters.remove(i);
+            }
+        }
+
+        output.add(letters);
+        output.add(integerToStringArrayList(auxiliary));
 
         return output;
 
