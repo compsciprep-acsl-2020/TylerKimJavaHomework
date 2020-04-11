@@ -13,21 +13,36 @@ public class Duplicates {
 
         //sorts the collection in alphabetical order
         ArrayList<String> Letters = letters(input);
+        System.out.println(Letters);
+        System.out.println(" ");
         Collections.sort(Letters);
 
         //gets the auxiliary array
         ArrayList<Integer> auxiliary = auxiliary(Letters, input);
 
+        //get history variable
+        ArrayList<ArrayList<String>> history = new ArrayList<>();
+
+        System.out.println(Letters);
+        System.out.println(auxiliary);
+
+        System.out.println(" ");
         ArrayList<ArrayList<String>> additionResult = ADD(Letters, auxiliary, "BATH");
         System.out.println(additionResult.get(0));
         System.out.println(additionResult.get(1));
 
         ArrayList<ArrayList<String>> subtractionResult = DELETE(additionResult.get(0), stringToIntegerArrayList(additionResult.get(1)), "BOA");
+        ArrayList<ArrayList<String>> resetResult = RESET(Letters, auxiliary, input);
 
         System.out.println(" ");
 
         System.out.println(subtractionResult.get(0));
         System.out.println(subtractionResult.get(1));
+
+        System.out.println(" ");
+
+        System.out.println(resetResult.get(0));
+        System.out.println(resetResult.get(1));
 
 
     }
@@ -92,6 +107,20 @@ public class Duplicates {
 
         return reorderLetterAndAuxiliary(letters, auxiliary);
     }
+
+        //reset
+    public static ArrayList<ArrayList<String>> RESET(ArrayList<String> letters, ArrayList<Integer> auxiliary, String input) {
+        letters.clear();
+        auxiliary.clear();
+
+        letters = letters(input);
+        auxiliary = auxiliary(letters, input);
+
+
+        return reorderLetterAndAuxiliary(letters, auxiliary);
+    }
+
+
         //delete
     public static ArrayList<ArrayList<String>> DELETE(ArrayList<String> letters, ArrayList<Integer> auxiliary, String deletedLetters) {
 
@@ -189,4 +218,19 @@ public class Duplicates {
 
     }
 
+    //History methods
+        //reset history
+    public static ArrayList<ArrayList<String>> resetHistory(ArrayList<String> letters) {
+        ArrayList<ArrayList<String>> output = new ArrayList<>();
+        output.add(letters);
+
+        return output;
+    }
+
+        //add history
+    public static ArrayList<ArrayList<String>> addHistory(ArrayList<ArrayList<String>> history, ArrayList<String> letters) {
+        history.add(letters);
+
+        return history;
+    }
 }
