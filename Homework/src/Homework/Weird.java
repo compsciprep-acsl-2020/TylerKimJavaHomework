@@ -28,7 +28,7 @@ public class Weird {
                         break;
 
                     case 3:
-                       System.out.println(def3(parameterNumber)[0] + ", " + def3(parameterNumber)[1]);
+                       System.out.println(def3(parameterNumber)[0] + ", " + def3(parameterNumber)[1] );
                        break;
 
                     case 4:
