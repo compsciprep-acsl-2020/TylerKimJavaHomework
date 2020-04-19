@@ -1,24 +1,66 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
 
 public class TylerKim_INTc4Patolli {
 
-    public static void main(String args[]) {
-        //get starting location
-        String testInput = "4 14 24 1 8 12 6 6 3 5 1 5 6";
+    public static void main(String args[]) throws FileNotFoundException {
+        Scanner input = new Scanner(new File("C:\\Users\\tyler\\dev\\TylerKimJavaHomework\\Competition\\src\\TylerKim_INTc4PatolliInput"));
 
-        int[][] board = createBoard();
-        ArrayList<int[]> inputValues = findInput(testInput);
-        int[] player1MarkerLocation = inputValues.get(0);
-        int[] capturedMarkerLocation = inputValues.get(1);
-        int numberOfDiceMoves = inputValues.get(2)[0];
-        int[] diceResults = inputValues.get(3);
+        while(input.hasNext()) {
+            String inputValue = input.nextLine();
 
-        ArrayList<Integer> output = new ArrayList<>();
+            //get starting location
+            int[][] board = createBoard();
+            ArrayList<int[]> inputValues = findInput(inputValue);
+            int[] playerMarkerLocations = inputValues.get(0);
+            int[] capturedMarkerLocations = inputValues.get(1);
+            int numberOfDiceMoves = inputValues.get(2)[0];
+            int[] diceResults = inputValues.get(3);
 
-        //run until there are no more moves left
-      for(int i = 0; i < numberOfDiceMoves; i++) {
+            ArrayList<Integer> output = new ArrayList<>();
 
-      }
+            //run until there are no more moves left
+            for(int i = 0; i < numberOfDiceMoves; i++) {
+                int lowestValueIndex = indexOfLowestValue(playerMarkerLocations);
+                int lowestValue = playerMarkerLocations[lowestValueIndex];
+
+                //negate turn and move if destination is unavailable
+                if(!hitsOccupiedPosition(lowestValue, playerMarkerLocations, capturedMarkerLocations, diceResults[i], board)) {
+                    //get destination after move
+                    int destination = lowestValue + diceResults[i];
+
+                    if(isPrimeNumber(destination)) {
+                        destination = primeRule(playerMarkerLocations, capturedMarkerLocations, destination);
+
+                    } else if(isPerfectSquareNumber(destination)) {
+                        destination = perfectSquareRule(playerMarkerLocations, capturedMarkerLocations, destination);
+
+                    } else {
+                        if(movedHorizontalToVertical(lowestValue, destination, board, diceResults[i])) {
+                            destination = nonSquareRootOrPrimeRule(destination, diceResults[i], playerMarkerLocations, capturedMarkerLocations);
+                        }
+                    }
+
+                    playerMarkerLocations[lowestValueIndex] = destination;
+                    //negation
+
+                } else {
+
+                }
+            }
+            ArrayList<Integer> markerLocation = convertArrToArrayList(playerMarkerLocations);
+
+            markerLocation = purgeEndGame(markerLocation);
+
+            Collections.sort(markerLocation);
+
+            System.out.println(markerLocation);
+        }
+
+
     }
 
 
@@ -35,12 +77,12 @@ public class TylerKim_INTc4Patolli {
 
         ArrayList<int[]> finalArray = new ArrayList<>();
 
-        //marker 2
+        //opponent marker
         for (int i = 0; i < 3; i++) {
             capturedMarkerLocation[i] = Integer.parseInt(inputArray[i]);
         }
 
-        //marker 1
+        //player markers
         for (int i = 0; i < 3; i++) {
             player1MarkerLocation[i] = Integer.parseInt(inputArray[i + 3]);
         }
@@ -83,116 +125,120 @@ public class TylerKim_INTc4Patolli {
 
 
     //game mechanics
-        //move markers
-    public static int[] moveMarkers(int[] playerMarkers, int[] capturedMarkers, int diceRoll, int[][] board) {
-        int lowestValueIndex = indexOfLowestValue(playerMarkers);
-        int lowestValue = playerMarkers[lowestValueIndex];
+        //test if occupied location is true
+    public static boolean hitsOccupiedPosition(int lowestValue, int[] playerMarkers, int[] capturedMarkers, int diceRoll, int[][] board) {
+       for(int i = 0; i < playerMarkers.length; i++) {
+           if((lowestValue + diceRoll) == playerMarkers[i]) {
+               return true;
+           }
+       }
 
-            //if move lands on same space as another marker
-        if(doesMarkerLandInOccupiedPosition(playerMarkers, capturedMarkers, diceRoll, playerMarkers[lowestValueIndex])) {
-            return playerMarkers;
-        }
+       for(int i = 0; i < capturedMarkers.length; i++) {
+           if((lowestValue+diceRoll) == capturedMarkers[i]) {
+               return true;
+           }
+       }
 
-        int tempVal = playerMarkers[lowestValueIndex] += diceRoll;
-
-             //testing cases
-        if(isPrimeNumber(tempVal)) {
-            playerMarkers[lowestValueIndex] = primeRule(playerMarkers, capturedMarkers, tempVal);
-
-        } else if(isPerfectNumber(tempVal)) {
-            playerMarkers[lowestValueIndex] = perfectSquareRule(playerMarkers, capturedMarkers, tempVal);
-
-        } else {
-            if(movedHorizontalToVertical(lowestValue, tempVal, board, diceRoll)) {
-                playerMarkers[lowestValueIndex] = findMultipleOfNumber(lowestValue, diceRoll, tempVal);
-            }
-
-        }
-        return playerMarkers;
+        return false;
     }
 
 
         //if it is prime move 6 forward unless unable to
-    public static int primeRule(int[] playerPositions, int[] capturedPositions, int tempValue) {
+    public static int primeRule(int[] playerPositions, int[] capturedPositions, int destinationValue) {
 
+            //run 6 times
         for(int x = 0; x < 6; x++) {
+
+                //player position
             for(int i = 0; i < playerPositions.length; i++) {
 
-                for(int j = 0; j < capturedPositions.length; j++) {
+                if((destinationValue + 1) == playerPositions[i]) {
+                    return destinationValue;
 
-                    if((tempValue + 1) == capturedPositions[j] || (tempValue + 1) == playerPositions[i]) {
-                        return tempValue;
-                    } else {
-                        tempValue++;
-                    }
                 }
             }
+
+                //captured positions
+            for(int i = 0; i < capturedPositions.length; i++) {
+
+                if((destinationValue + 1) == capturedPositions[i]) {
+                    return destinationValue;
+
+                }
+            }
+
+            destinationValue++;
         }
-        return tempValue;
+
+        return destinationValue;
     }
 
         //if it is perfect square move 6 back unless unable to
-    public static int perfectSquareRule(int[] playerPositions, int[] capturedPositions, int tempValue) {
+    public static int perfectSquareRule(int[] playerPositions, int[] capturedPositions, int destinationValue) {
+
 
         for(int i = 0; i < 6; i++) {
+
             for(int x = 0; x < playerPositions.length; x++) {
 
-                for(int j = 0; j < capturedPositions.length; j++) {
-
-                    if((tempValue - 1) == capturedPositions[j] || (tempValue - 1) == playerPositions[x]) {
-                        return tempValue;
-                    } else {
-                        tempValue--;
-                    }
+                if((destinationValue - 1) == playerPositions[x]) {
+                    return destinationValue;
                 }
             }
-        }return tempValue;
-    }
 
+            for(int y = 0; y < capturedPositions.length; y++) {
 
-        //detect if one horizontal followed by a vertical move has occurred
-    public static boolean movedHorizontalToVertical(int previousValue, int finalValue, int[][] board, int diceValue) {
-        int changeInI = Math.abs(indexOfNumber(previousValue, board)[0] - indexOfNumber(finalValue, board)[0]);
-        int changeInJ = Math.abs(indexOfNumber(previousValue, board)[1] - indexOfNumber(finalValue, board)[1]);
-
-        if (diceValue > 1) {
-            //first detect if there is a change in the i and j value and did not touch 2 or 31
-            if (changeInI > 0 && previousValue > 3 && finalValue < 3 && previousValue > 31 && finalValue < 31) {
-                return true;
+                if((destinationValue - 1) == capturedPositions[y]) {
+                    return destinationValue;
+                }
             }
-        }
-        return false;
-    }
-
-
-        //does marker land in occupied position
-    public static boolean doesMarkerLandInOccupiedPosition(int[] playerPositions, int[] capturedPositions, int diceRoll, int markerValue) {
-        for(int i = 0; i < playerPositions.length; i++) {
-            if((markerValue += diceRoll) == playerPositions[i]) {
-                return true;
-            }
-
-            if((markerValue += diceRoll) == capturedPositions[i]) {
-                return true;
-            }
+            destinationValue--;
 
         }
-        return false;
+        return destinationValue;
     }
 
+        //find next location
+    public static int nonSquareRootOrPrimeRule(int destination, int diceRoll, int[] playerLocations, int[] capturedLocations) {
+
+        outerLoop:
+        for(int i = destination; i > (destination - diceRoll); i--) {
+            if(findMultipleOfNumber(i, diceRoll)) {
+
+
+                for(int x = 0; x < playerLocations.length; x++) {
+                    if(i == playerLocations[x]) {
+                        continue outerLoop;
+                    }
+                }
+
+
+                for(int y = 0; y < capturedLocations.length; y++) {
+                    if(i == capturedLocations[y]) {
+                        continue outerLoop;
+                    }
+                }
+
+                destination = i;
+                return destination;
+            }
+
+        }
+
+        return destination - diceRoll;
+    }
 
 
 
     //supplementary
         //find multiple of number
-    public static int findMultipleOfNumber(int markerValue, int multipleValue, int tempVal) {
-        for(int i = markerValue; i < tempVal; i++) {
-            if(i % multipleValue == 0) {
-                return i;
-            }
+    public static boolean findMultipleOfNumber(int testedMultiple, int multiplierValue) {
+
+        if(testedMultiple % multiplierValue == 0) {
+            return true;
         }
 
-        return markerValue;
+        return false;
     }
 
 
@@ -232,7 +278,7 @@ public class TylerKim_INTc4Patolli {
     }
 
         //perfect square number tester
-    public static boolean isPerfectNumber(int x) {
+    public static boolean isPerfectSquareNumber(int x) {
         if ((x % Math.sqrt(x) == 0) && x > 6) {
             return true;
         }
@@ -266,5 +312,51 @@ public class TylerKim_INTc4Patolli {
         }
 
         return output;
+    }
+
+    //clean any arraylist greater than 52
+    public static ArrayList<Integer> purgeEndGame(ArrayList<Integer> playerMarkerLocations) {
+
+        for(int i = 0; i < playerMarkerLocations.size(); i++) {
+            if(playerMarkerLocations.get(i) >= 52) {
+                playerMarkerLocations.remove(i);
+            }
+        }
+
+        return playerMarkerLocations;
+    }
+
+    //detect if one horizontal followed by a vertical move has occurred
+    public static boolean movedHorizontalToVertical(int previousValue, int finalValue, int[][] board, int diceValue) {
+        int changeInI = Math.abs(indexOfNumber(previousValue, board)[0] - indexOfNumber(finalValue, board)[0]);
+        int changeInJ = Math.abs(indexOfNumber(previousValue, board)[1] - indexOfNumber(finalValue, board)[1]);
+
+
+        if (diceValue > 1) {
+
+            if(changeInI == 0 || changeInJ == 0) {
+                return false;
+            }
+
+            for(int i = previousValue; i < finalValue; i++) {
+                changeInI = Math.abs(indexOfNumber(i, board)[0] - indexOfNumber(i+1, board)[0]);
+                changeInJ = Math.abs(indexOfNumber(i, board)[1] - indexOfNumber(i+1, board)[1]);
+
+                //horizontal first
+                if((changeInJ == 1 && changeInI == 0) && (i+2) <= finalValue) {
+                    //update next move
+                    changeInI = Math.abs(indexOfNumber(i+1, board)[0] - indexOfNumber(i+2, board)[0]);
+                    //test if the very next is vertical
+                    if(changeInI == 1) {
+                        return true;
+                    }
+
+                } else {
+
+                }
+            }
+
+        }
+        return false;
     }
 }
